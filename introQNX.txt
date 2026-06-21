@@ -1,0 +1,153 @@
+QNX is a microkernel-based real-time operating system designed for safety-critical embedded systems. 
+It provides deterministic scheduling, strong fault isolation, and efficient message-passing IPC.
+
+Linux is a monolithic-kernel operating system designed for general-purpose computing. 
+It offers flexibility, a large ecosystem, and open-source development but is less deterministic for hard real-time applications.
+
+Key Difference: QNX focuses on real-time reliability and safety, while Linux focuses on 
+general-purpose performance and flexibility.
+
+focus on the topics that are actually used in automotive ECU software
+camera middleware, 
+diagnostics, 
+IPC, and 
+system integration.
+
+Think of QNX in 8 major layers:
+1. QNX Fundamentals
+2. QNX Architecture
+3. Process & Thread Management
+4. IPC (Inter Process Communication)
+5. Memory Management
+6. Device Drivers & Resource Managers
+7. Filesystem & Startup
+8. Automotive Development Topics
+
+Linux:
+Filesystem
+Drivers
+Network
+IPC
+        all inside kernel
+
+QNX:
+Filesystem process
+Driver process
+Network process
+Camera service
+        all outside kernel
+
+Suppose Camera Driver crashes.
+Linux:
+Whole system may crash
+QNX:
+Only driver restarts
+ECU continues running.
+
+Real Camera Manager Example:
+Camera Service:
+
+Camera Manager  -->  MsgSend()  -->  Camera Driver
+
+Driver returns:
+Frame Ready
+Camera Error
+Temperature Alert
+
+through:
+MsgReply()
+
+Why QNX Message Passing is Powerful
+Linux:
+Socket
+Pipe
+FIFO
+
+QNX:
+MsgSend()
+Direct Kernel IPC.
+Very fast.
+
+Phase 1 (Week 1)
+QNX Fundamentals
+Microkernel Architecture
+Process vs Thread
+Scheduling
+
+Phase 2 (Week 2)
+ChannelCreate()
+ConnectAttach()
+MsgSend()
+MsgReceive()
+MsgReply()
+
+Phase 3 (Week 3)
+Pulses
+Timers
+Interrupts
+Shared Memory
+
+Phase 4 (Week 4)
+Resource Managers
+Device Drivers
+Startup Sequence
+Buildfile
+IFS
+
+Phase 5 (Week 5)
+pidin
+tracelogger
+Memory Analysis
+Performance Analysis
+
+★★★★★ IPC (ChannelCreate, MsgSend, MsgReceive)
+★★★★★ Threads & Scheduling
+★★★★★ Timers & Pulses
+★★★★★ Shared Memory
+★★★★☆ Startup & Boot Flow
+★★★★☆ Resource Managers
+★★★★☆ Debugging (pidin, tracelogger)
+★★★☆☆ Driver Development
+
+Suggested Learning Sequence (12–16 Weeks)
+Foundation:
+RTOS Fundamentals
+QNX Fundamentals
+Processes & Threads
+Scheduling
+Core QNX:
+IPC (Channels, Messaging, Pulses)
+Timers
+Interrupts
+Memory Management
+System Layer:
+Filesystem
+Resource Managers
+Device Drivers
+Networking
+Advanced:
+Boot Process
+Debugging & Tracing
+Performance Optimization
+Automotive Focus:
+Camera Pipeline
+Health Monitoring
+Watchdog
+ISO 26262 Basics
+Error Recovery Mechanisms
+Topics Most Relevant to Your Camera Manager Work
+
+Focus heavily on:
+1. Processes & Threads
+2. Scheduling
+3. IPC (MsgSend/Receive/Reply)
+4. Pulses
+5. Timers
+6. Shared Memory
+7. Interrupts
+8. Device Drivers
+9. Boot Sequence
+10. DLT & Trace Tools
+11. Camera Pipeline Architecture
+12. Health Monitoring
+13. Watchdog Handling
