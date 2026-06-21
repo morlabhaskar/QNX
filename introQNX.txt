@@ -151,3 +151,10 @@ Focus heavily on:
 11. Camera Pipeline Architecture
 12. Health Monitoring
 13. Watchdog Handling
+
+CameraManager Process
+├── Camera Receive Thread
+├── Health Monitor Thread
+├── DLT Logger Thread
+├── Timer Thread
+└── IPC Thread
