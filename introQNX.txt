@@ -153,8 +153,152 @@ Focus heavily on:
 13. Watchdog Handling
 
 CameraManager Process
-├── Camera Receive Thread
+├── Camera Receive Thread   - Priority 200
 ├── Health Monitor Thread
-├── DLT Logger Thread
+├── DLT Logger Thread       - Priority 50
 ├── Timer Thread
-└── IPC Thread
+└── IPC Thread              - Priority 150
+
+overall camera system pipeline:
+Camera Sensor
+     │
+Camera Driver
+     │
+Frame Server
+     │
+Camera Manager
+     │
+ADAS / Display
+
+Processes
+Threads
+IPC
+Shared Memory
+Synchronization
+Timers
+Error Recovery\
+
+
+Process APIs :
+spawn()
+fork()
+exec()
+wait()
+getpid()
+kill()
+
+Thread APIs :
+pthread_create()
+pthread_join()
+pthread_exit()
+pthread_mutex_lock()
+pthread_mutex_unlock()
+
+Message Passing APIs :
+Server Side APIs :
+ChannelCreate()
+MsgReceive()
+MsgReply()
+ChannelDestroy()
+Client Side APIs :
+ConnectAttach()
+MsgSend()
+ConnectDetach()
+
+Pulse APIs :
+SIGEV_PULSE_INIT()
+MsgSendPulse()
+MsgReceive()
+
+Signal APIs :
+signal()
+sigaction()
+kill()
+raise()
+
+Timer APIs :
+timer_create()
+timer_settime()
+clock_gettime()
+nanosleep()
+
+Synchronization APIs :
+pthread_mutex_init()
+pthread_mutex_lock()
+pthread_mutex_unlock()
+
+Semaphore APIs :
+sem_init()
+sem_wait()
+sem_post()
+sem_destroy()
+
+Shared Memory APIs :
+shm_open()
+mmap()
+munmap()
+shm_unlink()
+
+Interrupt APIs :
+InterruptAttach()
+InterruptWait()
+InterruptDetach()
+
+Resource Manager APIs :
+dispatch_create()
+resmgr_attach()
+io_read()
+io_write()
+
+Networking APIs :
+socket()
+bind()
+listen()
+accept()
+connect()
+send()
+recv()
+
+Memory Management APIs :
+malloc()
+calloc()
+free()
+mmap()
+munmap()
+mlock()
+
+QNX Native IPC APIs :
+ChannelCreate()
+ConnectAttach()
+MsgSend()
+MsgReceive()
+MsgReply()
+SIGEV_PULSE_INIT()
+MsgSendPulse()
+
+APIs You Must Know as an Automotive QNX Engineer :
+
+Priority order:
+
+Level 1 (Mandatory) :
+ChannelCreate()
+ConnectAttach()
+MsgSend()
+MsgReceive()
+MsgReply()
+pthread_create()
+pthread_mutex_lock()
+pthread_mutex_unlock()
+
+Level 2 (Frequently Used) :
+SIGEV_PULSE_INIT()
+MsgSendPulse()
+timer_create()
+shm_open()
+mmap()
+
+Level 3 (Driver Development) :
+InterruptAttach()
+InterruptWait()
+resmgr_attach()
+dispatch_create()
