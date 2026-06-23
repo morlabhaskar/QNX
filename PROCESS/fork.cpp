@@ -13,13 +13,17 @@ int main()
         std::cout<<"Child Process"<<std::endl;
         std::cout<<"PID : "<<getpid()<<std::endl;
     }
-    else if(pid == 1)
+    else
     {
         std::cout<<"Parent Process"<<std::endl;
         std::cout<<"Child PID : "<<pid<<std::endl;
     }
-    else{
-        std::cout<<"Fork is Failed"<<std::endl;
-    }
     return 0;
 }
+
+/*
+Parent Process
+Child PID : 9944
+Child Process
+PID : 9944
+*/
