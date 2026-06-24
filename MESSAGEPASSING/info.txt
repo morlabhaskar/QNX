@@ -1,0 +1,98 @@
+1. ChannelCreate() :
+Purpose :
+Creates a channel on the server.
+A channel acts like a mailbox where clients can send messages.
+Without a channel, the server cannot receive messages.
+Syntax :
+#include <sys/neutrino.h>
+int chid = ChannelCreate(0);
+Return Value :
+Success : Channel ID (chid)
+Failure : -1
+
+2. MsgReceive() :
+Purpose :
+Waits for a message from a client.
+Server blocks until a message arrives.
+Syntax :
+int rcvid = MsgReceive(chid,&msg,sizeof(msg),NULL);
+--------------------------------------------------
+|    Parameter	    |       Meaning               |
+--------------------------------------------------
+|    chid	        |   Channel ID                |
+|    &msg	        |   Buffer to receive data    |
+|    sizeof(msg)	|   Message size              |
+|    NULL	        |   Optional info             |
+--------------------------------------------------
+
+Return Value :
+rcvid > 0  -> Message received
+rcvid = 0  -> Pulse received
+rcvid = -1 -> Error
+
+3. MsgReply() :
+Purpose :
+Sends a reply back to the client.
+After processing the request, the server must reply.
+Until reply comes, client remains blocked.
+Syntax :
+MsgReply(rcvid,EOK,reply,sizeof(reply));
+-------------------------------------
+|    Parameter	    |   Meaning      |
+-------------------------------------
+|    rcvid	        |   Received ID  |
+|    EOK	        |   Status       |
+|    reply	        |   Reply data   |
+|    sizeof(reply)	|   Reply size   |
+-------------------------------------
+4. ChannelDestroy() :
+Purpose :
+Deletes the channel.
+Used when server is shutting down.
+Syntax :
+ChannelDestroy(chid);
+
+5. ConnectAttach() : 
+Purpose :
+Client attaches to server channel.
+Creates a connection ID (coid).
+Think of it as dialing a phone number before talking.
+Syntax :
+int coid = ConnectAttach(ND_LOCAL_NODE,server_pid,chid,_NTO_SIDE_CHANNEL,0);
+Parameters :
+--------------------------------------------------
+|    Parameter	        |           Meaning       |
+--------------------------------------------------
+|    ND_LOCAL_NODE	    |       Same machine      |
+|    server_pid	        |       Server PID        |
+|    chid	            |       Server channel    |
+|    _NTO_SIDE_CHANNEL	|       Connection type   |
+|    0	                |       Flags             |
+--------------------------------------------------
+Return Value :
+coid > 0 -> Success
+coid = -1 -> Failure
+
+6. MsgSend() :
+Purpose :
+Sends a message to server and waits for reply.
+This is a blocking call.
+Syntax :
+MsgSend(coid,&msg,sizeof(msg),&reply,sizeof(reply));
+Parameters :
+--------------------------------------------
+|    Parameter	     |      Meaning         |
+--------------------------------------------
+|    coid	         |    Same machine      |
+|    &msg	         |    Server PID        |
+|    sizeof(msg)	 |    Server channel    |
+|    &reply	         |    Connection type   |
+|    sizeof(reply)	 |    Flags             |
+--------------------------------------------
+
+7. ConnectDetach() :
+Purpose :
+Disconnect from server.
+Releases connection resources.
+Syntax :
+ConnectDetach(coid);
